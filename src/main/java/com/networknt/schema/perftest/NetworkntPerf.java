@@ -20,7 +20,8 @@ public class NetworkntPerf {
 
     static {
         try {
-            JsonSchemaFactory factory = new JsonSchemaFactory();
+            //JsonSchemaFactory factory = new JsonSchemaFactory();
+            JsonSchemaFactory factory = JsonSchemaFactory.getInstance();
             SCHEMA = factory.getSchema(EveritPerf.class.getResourceAsStream("/schema-draft4.json"));
         } catch (Exception e) {
             throw new ExceptionInInitializerError(e);

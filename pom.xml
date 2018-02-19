@@ -10,16 +10,25 @@
 
     <packaging>jar</packaging>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.json-schema-validator>0.1.12</version.json-schema-validator>
+        <version.everit>1.5.1</version.everit>
+        <argLine>-Xmx512m -XX:MaxPermSize=256m</argLine>
+    </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>org.everit.json</groupId>
             <artifactId>org.everit.json.schema</artifactId>
-            <version>1.5.1</version>
+            <version>${version.everit}</version>
         </dependency>
         <dependency>
             <groupId>com.networknt</groupId>
             <artifactId>json-schema-validator</artifactId>
-            <version>0.1.9</version>
+            <version>${version.json-schema-validator}</version>
         </dependency>
         <dependency>
             <groupId>com.github.java-json-tools</groupId>
