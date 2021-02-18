@@ -16,21 +16,21 @@ https://github.com/everit-org/json-schema
 
 For testing the performance of the `fge/json-schema-validator` library I've used [this main class](https://github.com/fge/json-schema-validator/blob/master/src/test/java/com/github/fge/jsonschema/NewAPIPerfTest.java) .
 
+## results 2017-07-09
+fge: 7130 ms
+everit-org: 1168 ms
+networknt: 223 ms
+
 I ran the testsuite of both libraries 10 times (each execution performing 500 validations).
-
 Tests results on my local computer:
-
-
-fge: 7130ms
-
-everit-org: 1168ms
-
-networknt: 223ms
-
-
-
-
 Running the tests on other workstations gave a bit different numbers but similar ratios.
+
+## results 2021-02-18
+fge: 4741 ms
+everit-org: 564 ms
+networknt: 543 ms
+
+Single run
 
 # Running the tests
 
@@ -49,6 +49,6 @@ Run the test:
 
 `java -jar target/perftest.jar`
 
-
 # Test results
+
 Check [test results](test_results)
