@@ -5,7 +5,6 @@ import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-@PerfExample("Everit")
 public class EveritPerf {
 
   public static void main(final String[] args) {

@@ -15,6 +15,8 @@
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <argLine>-Xmx512m -XX:MaxPermSize=256m</argLine>
+        <version.slf4j>1.7.30</version.slf4j>
+        <version.logback>1.2.7</version.logback>
     </properties>
 
     <repositories>
@@ -45,9 +47,14 @@
             <version>1.0.69</version>
         </dependency>
         <dependency>
-            <groupId>com.github.java-json-tools</groupId>
-            <artifactId>json-schema-validator</artifactId>
-            <version>2.2.14</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${version.logback}</version>
         </dependency>
     </dependencies>
     <build>
@@ -225,7 +232,7 @@
                             <appendAssemblyId>false</appendAssemblyId>
                             <archive>
                                 <manifest>
-                                    <mainClass>com.networknt.schema.perftest.Runner</mainClass>
+                                    <mainClass>com.networknt.schema.perftest.NetworkntPerf</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>

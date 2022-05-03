@@ -1,8 +1,8 @@
 package com.networknt.schema.perftest;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jackson.JacksonUtils;
 import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.ValidationMessage;
@@ -14,7 +14,6 @@ import java.util.Set;
 /**
  * Created by steve on 1/14/2016.
  */
-@PerfExample("Networknt")
 public class NetworkntPerf {
     private static final JsonSchema SCHEMA;
 
@@ -37,9 +36,7 @@ public class NetworkntPerf {
     {
         ObjectMapper mapper = new ObjectMapper();
         final JsonNode googleAPI = mapper.readTree(EveritPerf.class.getResourceAsStream("/perftest.json"));
-        final Map<String, JsonNode> googleSchemas
-                = JacksonUtils.asMap(googleAPI.get("schemas"));
-
+        final Map<String, JsonNode> googleSchemas = mapper.convertValue(googleAPI.get("schemas"), new TypeReference<>(){});
         long begin, current;
         begin = System.currentTimeMillis();
         doValidate(googleSchemas, -1);

@@ -30,6 +30,29 @@ fge: 4741 ms
 everit-org: 564 ms
 networknt: 543 ms
 
+
+## results 2022-05-02
+The fge validator is removed and the runner is removed as well. Both libraries are upgraded to the latest version.
+
+To run it from the IDE, the result: 
+```
+everit-org(1.14.1): 260 ms
+networknt(1.0.69): 196 ms
+```
+
+To run it from the jar file. 
+
+```
+java -cp target/perftest.jar com.networknt.schema.perftest.EveritPerf
+java -cp target/perftest.jar com.networknt.schema.perftest.NetworkntPerf
+```
+The result: 
+
+```
+everit-org(1.14.1): 281 ms
+networknt(1.0.69): 448 ms
+```
+
 Single run
 
 # Running the tests
