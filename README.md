@@ -59,7 +59,7 @@ Single run
 
 Clone this repository:
 
-`git clone https://github.com/erosb/json-schema-perftest.git`
+`git clone https://github.com/networknt/json-schema-validator-perftest.git`
 
 Build the project with Maven:
 

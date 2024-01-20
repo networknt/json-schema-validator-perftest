@@ -172,7 +172,6 @@
           </plugin>
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
-            <version>2.2-beta-5</version>
             <executions>
               <execution>
                 <id>dist</id>
@@ -180,18 +179,6 @@
                 <goals>
                   <goal>single</goal>
                 </goals>
-                <configuration>
-                  <descriptorRefs>
-                    <descriptorRef>jar-with-dependencies</descriptorRef>
-                  </descriptorRefs>
-                  <finalName>perftest</finalName>
-                  <appendAssemblyId>false</appendAssemblyId>
-                  <archive>
-                    <manifest>
-                      <mainClass>com.networknt.schema.perftest.NetworkntPerf</mainClass>
-                    </manifest>
-                  </archive>
-                </configuration>
               </execution>
             </executions>
             <configuration>
@@ -229,13 +216,13 @@
     <dependency>
       <groupId>org.openjdk.jmh</groupId>
       <artifactId>jmh-generator-annprocess</artifactId>
-      <version>1.35</version>
+      <version>1.37</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
   <properties>
-    <jmh.version>1.35</jmh.version>
-    <version.logback>1.4.6</version.logback>
+    <jmh.version>1.37</jmh.version>
+    <version.logback>1.4.14</version.logback>
     <java.version>11</java.version>
     <version.slf4j>2.0.7</version.slf4j>
     <uberjar.name>benchmarks</uberjar.name>
