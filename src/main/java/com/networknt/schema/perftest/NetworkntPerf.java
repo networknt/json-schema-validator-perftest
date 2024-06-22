@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
+import com.networknt.schema.SpecVersion.VersionFlag;
 import com.networknt.schema.ValidationMessage;
 
 import java.io.IOException;
@@ -19,9 +20,8 @@ public class NetworkntPerf {
 
     static {
         try {
-            //JsonSchemaFactory factory = new JsonSchemaFactory();
-            JsonSchemaFactory factory = JsonSchemaFactory.getInstance();
-            SCHEMA = factory.getSchema(EveritPerf.class.getResourceAsStream("/schema-draft4.json"));
+            JsonSchemaFactory factory = JsonSchemaFactory.getInstance(VersionFlag.V4);
+            SCHEMA = factory.getSchema(NetworkntPerf.class.getResourceAsStream("/schema-draft4.json"));
         } catch (Exception e) {
             throw new ExceptionInInitializerError(e);
         }
@@ -35,8 +35,10 @@ public class NetworkntPerf {
             throws IOException
     {
         ObjectMapper mapper = new ObjectMapper();
-        final JsonNode googleAPI = mapper.readTree(EveritPerf.class.getResourceAsStream("/perftest.json"));
-        final Map<String, JsonNode> googleSchemas = mapper.convertValue(googleAPI.get("schemas"), new TypeReference<>(){});
+        final JsonNode googleAPI = mapper.readTree(NetworkntPerf.class.getResourceAsStream("/perftest.json"));
+        final Map<String, JsonNode> googleSchemas = mapper.convertValue(googleAPI.get("schemas"),
+                new TypeReference<Map<String, JsonNode>>() {
+                });
         long begin, current;
         begin = System.currentTimeMillis();
         doValidate(googleSchemas, -1);

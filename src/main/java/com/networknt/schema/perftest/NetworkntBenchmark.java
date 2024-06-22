@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
+import com.networknt.schema.SpecVersion.VersionFlag;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -34,7 +35,7 @@ public class NetworkntBenchmark {
 
 		public BenchmarkState() {
 			ObjectMapper objectMapper = new ObjectMapper();
-			JsonSchemaFactory factory = JsonSchemaFactory.getInstance();
+			JsonSchemaFactory factory = JsonSchemaFactory.getInstance(VersionFlag.V4);
 			try {
 				ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 				ObjectReader reader = objectMapper.reader();
