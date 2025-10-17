@@ -17,11 +17,11 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
-public class EveritBenchmark {
+public class OptimumCodeBenchmark {
 
     @State(Scope.Thread)
     public static class BenchmarkState {
-        private Callable<Object> basic = new EveritRunner();
+        private Callable<Object> basic = new OptimumCodeRunner();
     }
 
     @BenchmarkMode(Mode.Throughput)
@@ -34,8 +34,8 @@ public class EveritBenchmark {
     }
 
     public static void main(String[] args) throws RunnerException {
-        Options opt = new OptionsBuilder().include(EveritBenchmark.class.getSimpleName()).addProfiler(GCProfiler.class)
-                .build();
+        Options opt = new OptionsBuilder().include(OptimumCodeBenchmark.class.getSimpleName())
+                .addProfiler(GCProfiler.class).build();
 
         new Runner(opt).run();
     }

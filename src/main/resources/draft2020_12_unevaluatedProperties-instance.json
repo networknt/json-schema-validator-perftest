@@ -1,0 +1,19 @@
+{
+  "instances": {
+    "valid": {
+      "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      "name": "Laptop Pro",
+      "category": "electronics",
+      "warrantyYears": 2,
+      "powerSupplyType": "USB-C"
+    },
+    "invalid": {
+      "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      "name": "Laptop Pro",
+      "category": "electronics",
+      "warrantyYears": 2,
+      "powerSupplyType": "USB-C",
+      "extraField": "invalid"
+    }
+  }
+}
