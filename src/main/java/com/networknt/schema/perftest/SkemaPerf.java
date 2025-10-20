@@ -2,9 +2,9 @@ package com.networknt.schema.perftest;
 
 import java.util.concurrent.Callable;
 
-public class NetworkntPerf {
+public class SkemaPerf {
     public static void main(final String[] args) throws Exception {
-        Callable<Object> basic = new NetworkntRunner();
+        Callable<Object> basic = new SkemaRunner();
         Perf.run(basic);
     }
 }

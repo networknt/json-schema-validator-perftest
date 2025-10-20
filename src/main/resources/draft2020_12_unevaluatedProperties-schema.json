@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Complex Product Schema",
+  "description": "Schema for a product with conditional properties and strict property handling.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 3
+    },
+    "category": {
+      "type": "string",
+      "enum": ["electronics", "clothing", "books"]
+    }
+  },
+  "required": ["id", "name", "category"],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "category": { "const": "electronics" }
+        }
+      },
+      "then": {
+        "properties": {
+          "warrantyYears": { "type": "integer", "minimum": 1 },
+          "powerSupplyType": { "type": "string" }
+        },
+        "required": ["warrantyYears"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": { "const": "clothing" }
+        }
+      },
+      "then": {
+        "properties": {
+          "size": { "type": "string", "enum": ["S", "M", "L", "XL"] },
+          "material": { "type": "string" }
+        },
+        "required": ["size"]
+      }
+    }
+  ],
+  "unevaluatedProperties": false
+}

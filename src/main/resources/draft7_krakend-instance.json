@@ -1,0 +1,684 @@
+{
+  "instances": {
+    "0.krakend-docker": {
+      "version": 3,
+      "name": "My first API Gateway - KrakenD",
+      "port": 8080,
+      "endpoints": [
+        {
+          "endpoint": "/test",
+          "backend": [
+            {
+              "host": ["https://sandbox.api.service.nhs.uk"],
+              "url_pattern": "/hello-world/hello/world"
+            }
+          ]
+        }
+      ]
+    },
+    "2.debug": {
+      "$schema": "https://www.krakend.io/schema/v3.json",
+      "version": 3,
+      "name": "My first API Gateway - KrakenD",
+      "port": 8080,
+      "endpoints": [
+        {
+          "endpoint": "/my-endpoint",
+          "backend": [
+            {
+              "host": ["http://localhost:8080"],
+              "url_pattern": "/__debug/"
+            }
+          ],
+          "input_query_strings": ["content_id"]
+        }
+      ]
+    },
+    "4.encodings": {
+      "version": 3,
+      "name": "My first API Gateway - KrakenD",
+      "port": 8080,
+      "host": ["http://fake_api:8080"],
+      "endpoints": [
+        {
+          "endpoint": "/encodings.json",
+          "backend": [
+            {
+              "url_pattern": "/response.json",
+              "encoding": "json",
+              "group": "json"
+            },
+            {
+              "url_pattern": "/response.xml",
+              "encoding": "xml",
+              "group": "xml"
+            },
+            {
+              "url_pattern": "/response-rss.xml",
+              "encoding": "rss",
+              "group": "rss"
+            },
+            {
+              "url_pattern": "/response.txt",
+              "encoding": "string",
+              "group": "string"
+            }
+          ]
+        },
+        {
+          "endpoint": "/encodings.xml",
+          "backend": [
+            {
+              "host": ["http://localhost:8080"],
+              "url_pattern": "/encodings.json"
+            }
+          ],
+          "output_encoding": "xml"
+        }
+      ]
+    },
+    "5.data-aggregation": {
+      "version": 3,
+      "name": "My first API Gateway - KrakenD",
+      "port": 8080,
+      "host": ["http://my_service:8080"],
+      "endpoints": [
+        {
+          "endpoint": "/dashboard",
+          "backend": [
+            {
+              "url_pattern": "/customer.json"
+            },
+            {
+              "url_pattern": "/sales.json"
+            },
+            {
+              "url_pattern": "/inventory.json"
+            }
+          ]
+        }
+      ]
+    },
+    "6.traffic-throttling": {
+      "name": "KrakenD API Gateway",
+      "version": 3,
+      "port": 8080,
+      "endpoints": [
+        {
+          "endpoint": "/",
+          "backend": [
+            {
+              "host": ["http://fake_api"],
+              "url_pattern": "/index.php"
+            }
+          ]
+        },
+        {
+          "endpoint": "/rate-limit",
+          "backend": [
+            {
+              "host": ["http://fake_api"],
+              "url_pattern": "/index.php"
+            }
+          ],
+          "extra_config": {
+            "qos/ratelimit/router": {
+              "max_rate": 1
+            }
+          }
+        },
+        {
+          "endpoint": "/circuit-breaker",
+          "backend": [
+            {
+              "host": ["http://fake_api"],
+              "url_pattern": "/index.php",
+              "group": "backend1",
+              "extra_config": {
+                "qos/circuit-breaker": {
+                  "interval": 5,
+                  "timeout": 2,
+                  "max_errors": 1,
+                  "name": "test-circuit-breaker",
+                  "log_status_change": true
+                }
+              }
+            },
+            {
+              "host": ["http://fake_api"],
+              "url_pattern": "/index.php?return_error=true",
+              "group": "backend2",
+              "extra_config": {
+                "qos/circuit-breaker": {
+                  "interval": 5,
+                  "timeout": 2,
+                  "max_errors": 1,
+                  "name": "test-circuit-breaker",
+                  "log_status_change": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "7.backends-with-basic-auth": {
+      "version": 3,
+      "name": "My first API Gateway - KrakenD",
+      "port": 8080,
+      "host": ["http://fake_api:8080"],
+      "endpoints": [
+        {
+          "endpoint": "/test-basic-auth-ko",
+          "backend": [
+            {
+              "url_pattern": "/protected-response.json"
+            }
+          ]
+        },
+        {
+          "endpoint": "/test-basic-auth-ok",
+          "backend": [
+            {
+              "url_pattern": "/protected-response.json",
+              "extra_config": {
+                "modifier/martian": {
+                  "header.Modifier": {
+                    "scope": ["request"],
+                    "name": "Authorization",
+                    "value": "Basic a3Jha2VuZDpwYXNzd29yZA=="
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "8.api-monetization-with-moesif": {
+      "version": 3,
+      "host": ["http://localhost:8080"],
+      "debug_endpoint": true,
+      "echo_endpoint": true,
+      "extra_config": {
+        "telemetry/moesif": {
+          "application_id": "[YOUR_APP_ID]",
+          "user_id_headers": ["X-Tenant"],
+          "identify_company": {
+            "header": "X-Company"
+          },
+          "debug": true,
+          "log_body": true,
+          "event_queue_size": 1000,
+          "batch_size": 100,
+          "timer_wake_up_seconds": 1
+        }
+      },
+      "endpoints": [
+        {
+          "endpoint": "/test",
+          "backend": [
+            {
+              "url_pattern": "/__debug/test"
+            }
+          ]
+        }
+      ]
+    },
+    "9.rate-limits-per-tier": {
+      "name": "KrakenD PoC to implement rate_limit per tiers when using API Keys",
+      "version": 3,
+      "host": ["http://localhost:8080"],
+      "debug_endpoint": true,
+      "echo_endpoint": true,
+      "extra_config": {
+        "auth/api-keys": {
+          "propagate_role": "X-Krakend-Role",
+          "keys": [
+            {
+              "key": "gold-4d2c61e1-34c4-e96c-9456-15bd983c50",
+              "roles": ["user", "gold"]
+            },
+            {
+              "key": "silver-4d2c61e1-34c4-e96c-9456-15bd983c50",
+              "roles": ["user", "silver"]
+            }
+          ]
+        }
+      },
+      "endpoints": [
+        {
+          "endpoint": "/test",
+          "input_headers": ["Authorization", "X-Krakend-Role"],
+          "backend": [
+            {
+              "url_pattern": "/__debug"
+            }
+          ],
+          "extra_config": {
+            "auth/api-keys": {
+              "roles": ["gold", "silver"]
+            },
+            "qos/ratelimit/tiered": {
+              "tier_key": "X-Krakend-Role",
+              "tiers": [
+                {
+                  "tier_value": "gold",
+                  "tier_value_as": "literal",
+                  "ratelimit": {
+                    "client_max_rate": 10,
+                    "client_capacity": 10,
+                    "every": "10s",
+                    "strategy": "header",
+                    "key": "Authorization"
+                  }
+                },
+                {
+                  "tier_value": "value.matches('silver.*')",
+                  "tier_value_as": "policy",
+                  "ratelimit": {
+                    "client_max_rate": 5,
+                    "client_capacity": 5,
+                    "every": "10s",
+                    "strategy": "header",
+                    "key": "Authorization"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "10.api-docs-with-redocly": {
+      "$schema": "https://www.krakend.io/schema/v2.5/krakend.json",
+      "version": 3,
+      "extra_config": {
+        "@comment": "The $ref attribute works when Extended Flexible Config is enabled",
+        "documentation/openapi": {
+          "version": "1.0.0",
+          "host": "my.api.com",
+          "base_path": "/",
+          "terms_of_service": "http://url.to/tos",
+          "contact_name": "The wonderful API department",
+          "contact_email": "contact@example.com",
+          "contact_url": "https://your.company/developers",
+          "license_name": "Apache 2.0",
+          "license_url": "http://www.apache.org/licenses/LICENSE-2.0.html",
+          "tags": ["pet management", "adoptions", "adopter"],
+          "schemes": ["http", "https"],
+          "description": "include \"intro.md\" | toJson"
+        }
+      },
+      "endpoints": [
+        {
+          "@comment": "This endpoint serves the documentation under /docs/",
+          "endpoint": "/docs/*",
+          "output_encoding": "no-op",
+          "backend": [
+            {
+              "extra_config": {
+                "backend/static-filesystem": {
+                  "path": "./docs/"
+                }
+              },
+              "url_pattern": "/",
+              "host": ["http://leave-this-value"]
+            }
+          ]
+        },
+        {
+          "endpoint": "/pet",
+          "method": "POST",
+          "backend": [
+            {
+              "method": "POST",
+              "url_pattern": "/pet"
+            }
+          ],
+          "extra_config": {
+            "validation/json-schema": {
+              "@comment": "You can move this to 'request_definition' under the documentation/api below, but as a validator the gateway enforces the format to the user",
+              "$ref": "./openapi_doc_schemas/pet_post_request.json"
+            },
+            "documentation/openapi": {
+              "summary": "Add a new pet to the shelter",
+              "tags": ["pet management"],
+              "response_definition": {
+                "$ref": "./openapi_doc_schemas/pet_post_response.json"
+              }
+            }
+          }
+        },
+        {
+          "endpoint": "/pet",
+          "method": "PUT",
+          "backend": [
+            {
+              "method": "PUT",
+              "url_pattern": "/pet"
+            }
+          ],
+          "extra_config": {
+            "validation/json-schema": {
+              "$ref": "./openapi_doc_schemas/pet_post_request.json"
+            },
+            "documentation/openapi": {
+              "summary": "Update an existing pet",
+              "tags": ["pet management"],
+              "response_definition": {
+                "$ref": "./openapi_doc_schemas/pet_post_response.json"
+              }
+            }
+          }
+        },
+        {
+          "endpoint": "/pet/findByStatus",
+          "method": "GET",
+          "backend": [
+            {
+              "method": "GET",
+              "url_pattern": "/pet/findByStatus"
+            }
+          ],
+          "input_query_strings": ["status"],
+          "extra_config": {
+            "documentation/openapi": {
+              "description": "Multiple status values can be provided with comma separated strings",
+              "summary": "Finds Pets by status",
+              "tags": ["pet management"],
+              "response_definition": {
+                "200": {
+                  "status": "OK"
+                }
+              }
+            }
+          }
+        },
+        {
+          "endpoint": "/pet/findByTags",
+          "method": "GET",
+          "backend": [
+            {
+              "method": "GET",
+              "url_pattern": "/pet/findByTags"
+            }
+          ],
+          "input_query_strings": ["tags"],
+          "extra_config": {
+            "documentation/openapi": {
+              "description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+              "summary": "Finds Pets by tags",
+              "tags": ["pet management"]
+            }
+          }
+        },
+        {
+          "endpoint": "/pet/{petId}",
+          "method": "GET",
+          "backend": [
+            {
+              "method": "GET",
+              "url_pattern": "/pet/{petId}"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "description": "Returns a single pet",
+              "summary": "Find pet by ID",
+              "tags": ["pet management"]
+            }
+          }
+        },
+        {
+          "endpoint": "/pet/{petId}",
+          "method": "POST",
+          "backend": [
+            {
+              "method": "POST",
+              "url_pattern": "/pet/{petId}"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "summary": "Updates a pet in the shelter with form data",
+              "tags": ["pet management"]
+            }
+          }
+        },
+        {
+          "endpoint": "/pet/{petId}",
+          "method": "DELETE",
+          "backend": [
+            {
+              "method": "DELETE",
+              "url_pattern": "/pet/{petId}"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "summary": "Deletes a pet",
+              "tags": ["pet management"]
+            }
+          },
+          "input_headers": ["api_key"]
+        },
+        {
+          "endpoint": "/pet/{petId}/uploadImage",
+          "method": "POST",
+          "backend": [
+            {
+              "method": "POST",
+              "url_pattern": "/pet/{petId}/uploadImage"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "summary": "uploads an image",
+              "tags": ["pet management"]
+            }
+          }
+        },
+        {
+          "endpoint": "/shelter/inventory",
+          "method": "GET",
+          "backend": [
+            {
+              "method": "GET",
+              "url_pattern": "/shelter/inventory"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "description": "Returns a map of status codes to quantities",
+              "summary": "Returns pet inventories by status",
+              "tags": ["adoptions"]
+            }
+          }
+        },
+        {
+          "endpoint": "/shelter/adoption",
+          "method": "POST",
+          "backend": [
+            {
+              "method": "POST",
+              "url_pattern": "/shelter/adoption"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "summary": "Place an adoption for a pet",
+              "tags": ["adoptions"]
+            }
+          }
+        },
+        {
+          "endpoint": "/shelter/adoption/{adoptionId}",
+          "method": "GET",
+          "backend": [
+            {
+              "method": "GET",
+              "url_pattern": "/shelter/adoption/{adoptionId}"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "description": "For valid response try integer IDs with value \u003e= 1 and \u003c= 10. Other values will generated exceptions",
+              "summary": "Find adoption by ID",
+              "tags": ["adoptions"]
+            }
+          }
+        },
+        {
+          "endpoint": "/shelter/adoption/{adoptionId}",
+          "method": "DELETE",
+          "backend": [
+            {
+              "method": "DELETE",
+              "url_pattern": "/shelter/adoption/{adoptionId}"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "description": "For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors",
+              "summary": "Delete adoption by ID",
+              "tags": ["adoptions"]
+            }
+          }
+        },
+        {
+          "endpoint": "/user",
+          "method": "POST",
+          "backend": [
+            {
+              "method": "POST",
+              "url_pattern": "/user"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "description": "This can only be done by the logged in user.",
+              "summary": "Create user",
+              "tags": ["adopter"]
+            }
+          }
+        },
+        {
+          "endpoint": "/user/createWithArray",
+          "method": "POST",
+          "backend": [
+            {
+              "method": "POST",
+              "url_pattern": "/user/createWithArray"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "summary": "Creates list of users with given input array",
+              "tags": ["adopter"]
+            }
+          }
+        },
+        {
+          "endpoint": "/user/createWithList",
+          "method": "POST",
+          "backend": [
+            {
+              "method": "POST",
+              "url_pattern": "/user/createWithList"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "summary": "Creates list of users with given input array",
+              "tags": ["adopter"]
+            }
+          }
+        },
+        {
+          "endpoint": "/user/login",
+          "method": "GET",
+          "backend": [
+            {
+              "method": "GET",
+              "url_pattern": "/user/login"
+            }
+          ],
+          "input_query_strings": ["username", "password"],
+          "extra_config": {
+            "documentation/openapi": {
+              "summary": "Logs user into the system",
+              "tags": ["adopter"]
+            }
+          }
+        },
+        {
+          "endpoint": "/user/logout",
+          "method": "GET",
+          "backend": [
+            {
+              "method": "GET",
+              "url_pattern": "/user/logout"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "summary": "Logs out current logged in user session",
+              "tags": ["adopter"]
+            }
+          }
+        },
+        {
+          "endpoint": "/user/{username}",
+          "method": "GET",
+          "backend": [
+            {
+              "method": "GET",
+              "url_pattern": "/user/{username}"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "summary": "Get user by user name",
+              "tags": ["adopter"]
+            }
+          }
+        },
+        {
+          "endpoint": "/user/{username}",
+          "method": "PUT",
+          "backend": [
+            {
+              "method": "PUT",
+              "url_pattern": "/user/{username}"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "description": "This can only be done by the logged in user.",
+              "summary": "Updated user",
+              "tags": ["adopter"]
+            }
+          }
+        },
+        {
+          "endpoint": "/user/{username}",
+          "method": "DELETE",
+          "backend": [
+            {
+              "method": "DELETE",
+              "url_pattern": "/user/{username}"
+            }
+          ],
+          "extra_config": {
+            "documentation/openapi": {
+              "description": "This can only be done by the logged in user.",
+              "summary": "Delete user",
+              "tags": ["adopter"]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

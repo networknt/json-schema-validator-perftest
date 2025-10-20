@@ -15,11 +15,19 @@
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <argLine>-Xmx512m -XX:MaxPermSize=256m</argLine>
-        <version.slf4j>2.0.17</version.slf4j>
-        <version.logback>1.5.18</version.logback>
+        <slf4j.version>2.0.17</slf4j.version>
+        <logback.version>1.5.19</logback.version>
+        <everit-json-schema.version>1.14.6</everit-json-schema.version>
+        <json-schema-validator.version>1.5.9</json-schema-validator.version>
+        <json-schema.version>1.8.2</json-schema.version>
+        <jsonschemafriend.version>0.12.5</jsonschemafriend.version>
+        <json-schema-validator-jvm.version>0.5.1</json-schema-validator-jvm.version>
+        <json-sKema.version>0.25.0</json-sKema.version>
         <jmh.version>1.37</jmh.version>
+        <nexus-staging-maven.version>1.7.0</nexus-staging-maven.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+        <maven-shade-plugin.version>3.6.1</maven-shade-plugin.version>
         <uberjar.name>benchmarks</uberjar.name>
-        <version.nexus-staging-maven>1.7.0</version.nexus-staging-maven>
     </properties>
 
     <repositories>
@@ -52,22 +60,42 @@
         <dependency>
             <groupId>com.github.erosb</groupId>
             <artifactId>everit-json-schema</artifactId>
-            <version>1.14.4</version>
+            <version>${everit-json-schema.version}</version>
         </dependency>
         <dependency>
             <groupId>com.networknt</groupId>
             <artifactId>json-schema-validator</artifactId>
-            <version>1.4.2</version>
+            <version>${json-schema-validator.version}</version>
         </dependency>
+        <dependency>
+            <groupId>dev.harrel</groupId>
+            <artifactId>json-schema</artifactId>
+            <version>${json-schema.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.jimblackler.jsonschemafriend</groupId>
+            <artifactId>core</artifactId>
+            <version>${jsonschemafriend.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>io.github.optimumcode</groupId>
+          <artifactId>json-schema-validator-jvm</artifactId>
+          <version>${json-schema-validator-jvm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.erosb</groupId>
+            <artifactId>json-sKema</artifactId>
+            <version>${json-sKema.version}</version>
+        </dependency>        
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${version.slf4j}</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${version.logback}</version>
+            <version>${logback.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -94,6 +122,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
+                <version>${maven-shade-plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -133,7 +162,7 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>${version.nexus-staging-maven}</version>
+                <version>${nexus-staging-maven.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -156,39 +185,30 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <source>8</source>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.openjdk.jmh</groupId>
+                            <artifactId>jmh-generator-annprocess</artifactId>
+                            <version>${jmh.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>3.5.4</version>
             </plugin>
             <!-- JACOCO added for code coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.6</version>
+                <version>0.8.13</version>
                 <executions>
                     <execution>
                         <id>pre-unit-test</id>
@@ -251,7 +271,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.8.0</version>
+                        <version>${maven-compiler-plugin.version}</version>
                         <configuration>
                             <release>11</release>
                         </configuration>
