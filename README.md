@@ -24,7 +24,7 @@ These benchmarks are run on [Standard GitHub-hosted runners for public repositor
 | Name                              | Repository                                           | Dialects                                                         | Remarks                 |
 | --------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------- | ----------------------- |
 | NetworkNT JSON Schema Validator   | https://github.com/networknt/json-schema-validator   | Draft 4, Draft 6, Draft 7, Draft 2019-09, Draft 2020-12          |
-| dev.harrel:json-schema            | https://github.com/harrel56/json-schema              | Draft 7, Draft 2019-09, Draft 2020-12                            |
+| dev.harrel:json-schema            | https://github.com/harrel56/json-schema              | Draft 4, Draft 6, Draft 7, Draft 2019-09, Draft 2020-12          |
 | jsonschemafriend                  | https://github.com/jimblackler/jsonschemafriend      | Draft 3, Draft 4, Draft 6, Draft 7, Draft 2019-09, Draft 2020-12 |
 | OptimumCode json-schema-validator | https://github.com/OptimumCode/json-schema-validator | Draft 4, Draft 6, Draft 7, Draft 2019-09, Draft 2020-12          |
 | json-sKema                        | https://github.com/erosb/json-sKema                  | Draft 2020-12                                                    |

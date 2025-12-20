@@ -16,16 +16,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <argLine>-Xmx512m -XX:MaxPermSize=256m</argLine>
         <slf4j.version>2.0.17</slf4j.version>
-        <logback.version>1.5.19</logback.version>
+        <logback.version>1.5.22</logback.version>
         <everit-json-schema.version>1.14.6</everit-json-schema.version>
-        <json-schema-validator.version>1.5.9</json-schema-validator.version>
-        <json-schema.version>1.8.2</json-schema.version>
+        <json-schema-validator.version>2.0.1</json-schema-validator.version>
+        <json-schema.version>1.9.0</json-schema.version>
         <jsonschemafriend.version>0.12.5</jsonschemafriend.version>
-        <json-schema-validator-jvm.version>0.5.1</json-schema-validator-jvm.version>
-        <json-sKema.version>0.25.0</json-sKema.version>
+        <json-schema-validator-jvm.version>0.5.3</json-schema-validator-jvm.version>
+        <json-sKema.version>0.28.0</json-sKema.version>
         <jmh.version>1.37</jmh.version>
         <nexus-staging-maven.version>1.7.0</nexus-staging-maven.version>
-        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
         <maven-shade-plugin.version>3.6.1</maven-shade-plugin.version>
         <uberjar.name>benchmarks</uberjar.name>
     </properties>

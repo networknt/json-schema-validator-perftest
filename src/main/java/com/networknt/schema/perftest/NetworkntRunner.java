@@ -8,22 +8,22 @@ import java.util.concurrent.Callable;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.networknt.schema.JsonSchema;
-import com.networknt.schema.JsonSchemaFactory;
-import com.networknt.schema.SpecVersion.VersionFlag;
+import com.networknt.schema.Schema;
+import com.networknt.schema.SchemaRegistry;
+import com.networknt.schema.SpecificationVersion;
 
 public class NetworkntRunner implements Callable<Object> {
-    private JsonSchema jsonSchema;
+    private Schema jsonSchema;
     private JsonNode schemas;
     private List<String> schemaNames;
     
     public NetworkntRunner() {
-    	this("draft4_basic-schema.json", "draft4_basic-instance.json", "schemas");
+        this("draft4_basic-schema.json", "draft4_basic-instance.json", "schemas");
     }
 
     public NetworkntRunner(String schema, String instance, String instanceKey) {
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonSchemaFactory factory = JsonSchemaFactory.getInstance(VersionFlag.V4);
+        SchemaRegistry factory = SchemaRegistry.withDefaultDialect(SpecificationVersion.DRAFT_4);
         try {
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             ObjectReader reader = objectMapper.reader();
